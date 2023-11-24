@@ -2,6 +2,7 @@ package com.fmunmar310.practica1.ui.theme
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -47,7 +48,7 @@ fun getSuperHeroes():MutableList<Superhero>{
 
 @Composable
 fun SuperheroView(){
-    LazyRow(){
+    LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)){
         items (getSuperHeroes()) {
             ItemHero (superhero = it)
         }
@@ -56,8 +57,9 @@ fun SuperheroView(){
 
 @Composable
 fun ItemHero(superhero: Superhero){
-        Card(modifier = Modifier.border(width = 2.dp, color = Color.Red)
-            .width(200.dp)){
+        Card(modifier = Modifier.border(width = 2.dp, color = Color.Red,)
+            .width(200.dp)
+        ){
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Image(painter = painterResource(id = superhero.photo),
                     contentScale = ContentScale.Crop,
