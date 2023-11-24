@@ -6,11 +6,15 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import com.fmunmar310.practica1.R
 import androidx.compose.foundation.lazy.items
@@ -22,6 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -50,6 +55,9 @@ fun getSuperHeroes():MutableList<Superhero>{
     return miLista
 }
 
+/**
+ * Función con LazyColumn y el toast
+ */
 @Composable
 fun SuperheroView(){
     val context = LocalContext.current
@@ -61,7 +69,44 @@ fun SuperheroView(){
         }
     }
 }
+/**
+ * Función con LazyVerticalGrid y la opción GridCells.Fixed a 2 columnas
+ */
+@Preview
+@Composable
+fun SuperheroView2(){
+    val context = LocalContext.current
+    LazyVerticalGrid(columns = GridCells.Fixed(2),
+        contentPadding = PaddingValues(horizontal = 4.dp, vertical = 4.dp)
+    ){
+        items (getSuperHeroes()) {
+            ItemHero (superhero = it, onItemSelected = {superhero ->
+                Toast.makeText(context, superhero.realNAme, Toast.LENGTH_SHORT).show()
+            })
+        }
+    }
+}
+/**
+ * Función con LazyVerticalGrid y la opción GridCells.Adaptative a 120.dp
+ */
+@Preview
+@Composable
+fun SuperheroView3(){
+    val context = LocalContext.current
+    LazyVerticalGrid(columns = GridCells.Adaptive(120.dp),
+        contentPadding = PaddingValues(horizontal = 4.dp, vertical = 4.dp)
+    ){
+        items (getSuperHeroes()) {
+            ItemHero (superhero = it, onItemSelected = {superhero ->
+                Toast.makeText(context, superhero.realNAme, Toast.LENGTH_SHORT).show()
+            })
+        }
+    }
+}
 
+/**
+ * Función composable con un card compuesta a su vez por una imagen y tres textos
+ */
 @Composable
 fun ItemHero(superhero: Superhero, onItemSelected: (Superhero) -> Unit){
         Card(modifier = Modifier.border(width = 2.dp, color = Color.Red,)
