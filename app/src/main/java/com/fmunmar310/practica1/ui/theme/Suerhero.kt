@@ -1,12 +1,15 @@
 package com.fmunmar310.practica1.ui.theme
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.runtime.Composable
 import com.fmunmar310.practica1.R
@@ -17,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -48,17 +52,21 @@ fun getSuperHeroes():MutableList<Superhero>{
 
 @Composable
 fun SuperheroView(){
-    LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)){
+    val context = LocalContext.current
+    LazyColumn(){
         items (getSuperHeroes()) {
-            ItemHero (superhero = it)
+            ItemHero (superhero = it, onItemSelected = {superhero ->
+                Toast.makeText(context, superhero.realNAme, Toast.LENGTH_SHORT).show()
+            })
         }
     }
 }
 
 @Composable
-fun ItemHero(superhero: Superhero){
+fun ItemHero(superhero: Superhero, onItemSelected: (Superhero) -> Unit){
         Card(modifier = Modifier.border(width = 2.dp, color = Color.Red,)
-            .width(200.dp)
+            .fillMaxWidth()
+            .clickable { onItemSelected (superhero)}
         ){
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Image(painter = painterResource(id = superhero.photo),
